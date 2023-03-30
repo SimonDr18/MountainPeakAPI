@@ -49,6 +49,7 @@
 	</dependencies>
 
 	<build>
+        <finalName>mountain-peak-api-docker</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

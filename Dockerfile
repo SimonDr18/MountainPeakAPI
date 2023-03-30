@@ -1,5 +1,5 @@
-FROM eclipse-temurin:11
+FROM eclipse-temurin:17
 
-ARG JAR_FILE=*.jar
-COPY ${JAR_FILE} application.jar
-ENTRYPOINT ["java", "-jar", "application.jar"]
+ADD target/mountain-peak-api-docker.jar mountain-peak-api-docker.jar
+ENTRYPOINT ["java", "-jar", "mountain-peak-api-docker.jar"]
+EXPOSE 8080

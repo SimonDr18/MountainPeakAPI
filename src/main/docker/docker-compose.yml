@@ -1,15 +1,14 @@
-version: '2'
+version: '3.1'
 
 services:
   app:
-    image: 'MoutainPeakAPI:latest'
-    build:
-      context: .
-    container_name: app
+    image: 'mountain-peak-api-docker.jar'
+    ports:
+      - "8080:8080"
     depends_on:
       - db
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/moutainpeak
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=root
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
@@ -17,6 +16,9 @@ services:
   db:
     image: 'postgres:15.2'
     container_name: db
+    ports:
+      - "5432:5432"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=postgres

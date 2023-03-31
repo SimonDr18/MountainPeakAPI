@@ -47,16 +47,26 @@ public class PeakController {
         }
     }
 
-    //@PostMapping("/all/range")
-    //public ResponseEntity<List<Peak>> getPeaksWithin(@RequestBody float x1, float y1, float x2, float y2){
-        // The SQL request find all points between first point coordinates and second point coordinates
-    //    List<Peak> foundPeaks = this.peakRepository.findByLatitudeFieldBetweenAndLongitudeFieldBetween(x1, x2, y1, y2);
-    //    return new ResponseEntity<>(foundPeaks, HttpStatus.OK);
-    //}
+    @PostMapping("/all/range")
+    public ResponseEntity<List<Peak>> getPeaksWithin(@RequestBody float la1, float lo1, float la2, float lo2){
+        // The SQL request find all points between first point coordinates and second point coordinate
+        if (!(isValid(la1, lo1) && isValid(la2, lo2)))
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        List<Peak> foundPeaks = this.peakRepository.findByArea(la1, la2, lo1, lo2);
+        return new ResponseEntity<>(foundPeaks, HttpStatus.OK);
+    }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<HttpStatus> deletePeak(@PathVariable("id") long id){
         peakRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    public static boolean isValid(float la, float lo){
+        if (la < -90 || la > 90 ||
+                lo < -180 || lo > 180) {
+            return false;
+        }
+        return true;
     }
 }
